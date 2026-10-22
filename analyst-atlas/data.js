@@ -108,3 +108,216 @@ export const demoOrders = [
   {id:1008,region:'West',category:'Office Supplies',revenue:175}
 ];
 export const chartDatasets={revenue:{label:'Revenue ($k)',labels:['Jan','Feb','Mar','Apr','May','Jun'],values:[38,52,46,67,63,84]},users:{label:'Active users (k)',labels:['Jan','Feb','Mar','Apr','May','Jun'],values:[24,32,41,48,59,73]},orders:{label:'Orders (hundreds)',labels:['Jan','Feb','Mar','Apr','May','Jun'],values:[31,43,39,58,54,69]}};
+// Extended instructional guidance: each entry is [detailed explanation, worked example].
+export const lessonGuides = {
+  "excel": [
+    [
+      "An analytical workbook should store one record per row and one variable per column. Format dates as real dates and amounts as numbers, because text-formatted amounts break sums.",
+      "If Sales has 120 transaction rows, Ctrl+T creates a growing table; adding row 121 makes SUM(Sales[Revenue]) include it automatically."
+    ],
+    [
+      "SUMIFS adds numbers only where conditions match; COUNTIFS counts matching records. Use $ to lock a reference when copying formulas, and IFERROR only when you know how missing results should be handled.",
+      "With West revenue of 500, 700 and East revenue of 300, SUMIFS for West returns 1,200."
+    ],
+    [
+      "XLOOKUP searches a key column and returns a value from its corresponding row. Clean identifiers first and check duplicates: repeated SKU codes can lead to ambiguous lookups.",
+      "If A2 is SKU-17 and the Products table maps SKU-17 to Footwear, XLOOKUP returns Footwear."
+    ],
+    [
+      "TRIM removes ordinary extra spaces, CLEAN removes many nonprinting characters, and VALUE or DATEVALUE can convert correctly structured text. Test locale-dependent dates before conversion.",
+      "An exported value '  Pune   Store ' becomes 'Pune Store' after TRIM."
+    ],
+    [
+      "PivotTables summarize detailed transactions without rewriting the source. Rows define categories, Columns split periods and Values set aggregation; refresh after underlying data changes.",
+      "With West sales of 400 and 600 in June, a PivotTable shows West/June = 1,000 when Revenue is summed."
+    ],
+    [
+      "Choose charts based on the question rather than decoration. Bars compare categories, lines explain time sequences, and scatter plots compare numeric variables. Include units and meaningful axes.",
+      "Six monthly revenue totals belong on a line chart; revenue by five stores is clearer as a sorted bar chart."
+    ],
+    [
+      "Power Query is a repeatable ETL workflow: extract files, transform columns, then load cleaned tables. Apply type conversions before calculations and confirm append inputs share the same column meanings.",
+      "Drop a new October sales file into a folder and use Refresh to append it to January–September exports."
+    ],
+    [
+      "Validation prevents avoidable mistakes at entry time, while conditional formatting highlights exceptions after data is entered. Never assume every duplicate invoice ID is invalid: invoices can have multiple lines.",
+      "Configure a Status dropdown with Open, Closed and On Hold to prevent inconsistent spellings."
+    ],
+    [
+      "Define each KPI with its numerator, denominator and period before designing visuals. Distinct orders are essential when each order contains multiple product lines.",
+      "Revenue 50,000 across 200 distinct orders gives AOV 250, even if there are 430 line items."
+    ],
+    [
+      "Good dashboards must reconcile to source exports and document refresh ownership. Test filters, blanks, duplicate keys and unexpected date gaps before sharing.",
+      "Compare a source-system total of 125,400 with the dashboard total; investigate any mismatch before publication."
+    ]
+  ],
+  "sql": [
+    [
+      "SELECT chooses output columns and FROM specifies the source relation. Naming only necessary fields reduces data transfer and documents the purpose of a report.",
+      "SELECT order_id, region FROM orders returns those two columns for every order."
+    ],
+    [
+      "WHERE filters source rows before aggregation and ORDER BY determines displayed sort order. Use inclusive BETWEEN carefully for timestamps; half-open date ranges avoid missing late-night records.",
+      "WHERE revenue >= 100 keeps 150 and 200 but excludes 60; ORDER BY revenue DESC puts 200 first."
+    ],
+    [
+      "Aggregations summarize records at a chosen grain. GROUP BY sets that grain, whereas COUNT(DISTINCT order_id) prevents multiple lines of one order inflating order counts.",
+      "West orders with revenue 100 and 250 produce SUM(revenue) = 350 for West."
+    ],
+    [
+      "JOIN combines tables by matching keys. A LEFT JOIN preserves all left-side rows, but duplicate dimension keys can multiply facts, so validate row counts and totals after joining.",
+      "Two orders for customer C1 join to one customers row for C1 without changing order count."
+    ],
+    [
+      "CASE maps values into business-defined groups and COALESCE substitutes a fallback for NULL. NULL means unknown or absent; only replace it with zero if the metric semantics justify that choice.",
+      "A 650 transaction maps to High, while a 200 transaction maps to Standard."
+    ],
+    [
+      "WHERE removes records before grouping; HAVING evaluates aggregates after grouping. Subqueries help calculate comparison values without hardcoding numbers.",
+      "Regions with totals 750 and 1,300: HAVING SUM(revenue)>1000 retains only the second."
+    ],
+    [
+      "CTEs named with WITH divide large queries into readable logical stages. They improve maintainability but are not guaranteed to improve performance; test the execution plan.",
+      "Create a monthly_sales CTE that aggregates orders, then SELECT only the three highest-revenue months."
+    ],
+    [
+      "Window functions compute a value across related rows without collapsing them. PARTITION BY defines groups; ORDER BY determines sequence, which must be deterministic for stable ranking.",
+      "In West, revenues 500, 300 and 200 receive ROW_NUMBER values 1, 2 and 3 when sorted descending."
+    ],
+    [
+      "Date grouping allows daily, monthly and year-over-year comparisons. Use the database's actual date functions and a calendar table when reporting fiscal periods.",
+      "Summing all orders dated in April produces April sales; LAG can compare April with March."
+    ],
+    [
+      "First confirm query correctness, then inspect EXPLAIN and improve the expensive operations. Indexes may help selective filters and joins, but indexing every column can slow writes and consume storage.",
+      "If a report scans 10 million rows daily, inspect the plan before changing indexes."
+    ]
+  ],
+  "python": [
+    [
+      "Python scripts run statements in order; variables store values and functions package reusable logic. Use descriptive names and test small inputs before processing large files.",
+      "Set revenue = 1500 and orders = 6; revenue / orders produces AOV 250."
+    ],
+    [
+      "A DataFrame is a labeled, column-oriented table. Inspect shape, dtypes, head and descriptive statistics before assuming that imported CSV columns are reliable.",
+      "pd.read_csv('orders.csv') creates a DataFrame; df.head() previews its first five rows."
+    ],
+    [
+      "Boolean masks select records based on conditions, while sort_values orders the resulting DataFrame. Combine masks with & and parentheses, not Python's scalar and.",
+      "df[df['revenue'] > 500] keeps 650 and 900 and removes 200."
+    ],
+    [
+      "Missing values should be measured before correction. Use dropna for truly unusable records or fillna with a justified rule; do not silently fill every missing sale with zero.",
+      "If three of 100 customer ages are missing, report 3% missingness before filling them with a documented median."
+    ],
+    [
+      "merge combines datasets using keys; validate the relationship with the validate argument where possible. Compare row counts before and after to identify unexpected duplicates.",
+      "Joining orders to a unique product table on sku attaches category names while retaining each order row."
+    ],
+    [
+      "groupby aggregates records within categories. Specify the column to aggregate and its operation to avoid misleading totals and make outputs reusable.",
+      "Orders of 200 and 300 in West produce revenue 500 for West after groupby('region')['revenue'].sum()."
+    ],
+    [
+      "EDA explores distributions, outliers and relationships before modeling or reporting. Distinguish exploratory patterns from causal explanations; document anomalies for business review.",
+      "A histogram of order_value reveals that most orders fall below 500 with a few above 5,000."
+    ],
+    [
+      "Matplotlib controls plots explicitly, while Seaborn adds convenient statistical defaults. Label axes, choose suitable scales and avoid crowded legends.",
+      "Plot month versus total revenue as a line chart and label the y-axis 'Revenue (₹)'."
+    ],
+    [
+      "Automation is most valuable for repeatable jobs with predictable inputs. Parameterize paths, validate required columns, log failures and ensure reruns do not double count data.",
+      "A daily script reads new orders, refreshes summary tables and saves a date-stamped report."
+    ],
+    [
+      "Reproducibility means another analyst can run the same code and obtain comparable outputs. Pin dependencies, fix random seeds where applicable and separate input, processing and output stages.",
+      "Save requirements.txt and a README describing how to regenerate the monthly sales summary."
+    ]
+  ],
+  "powerbi": [
+    [
+      "Power BI Desktop connects to data, transforms it, models relationships and builds reports. Power BI Service distributes published semantic models and reports to authorized audiences.",
+      "Import orders, relate them to products and create a Revenue by Category report before publishing."
+    ],
+    [
+      "Power Query transforms data before it enters the model. Rename fields, fix types, remove irrelevant columns and preserve reusable transformations rather than editing source files by hand.",
+      "Convert OrderDate from text into a Date field and remove an unused export notes column."
+    ],
+    [
+      "A star schema places numeric events in fact tables and descriptive attributes in dimension tables. Set relationships according to business keys and avoid ambiguous filter paths.",
+      "FactSales relates many sales rows to one DimProduct record per ProductID."
+    ],
+    [
+      "DAX measures evaluate at query time under filter context, whereas calculated columns store values for every row at refresh. Start with explicit base measures.",
+      "Total Revenue = SUM(FactSales[Revenue]); a region slicer automatically changes the displayed amount."
+    ],
+    [
+      "Filter context comes from slicers, visual axes, relationships and DAX expressions. CALCULATE modifies the context in which an expression is evaluated.",
+      "CALCULATE([Total Revenue], DimRegion[Region]='West') returns West revenue even on an all-region card."
+    ],
+    [
+      "Time intelligence compares periods using a correctly configured date table with continuous dates. Ensure you understand calendar vs fiscal years and missing dates.",
+      "Compare April 2026 revenue with April 2025 using DATEADD over a marked Date table."
+    ],
+    [
+      "Build visuals around decisions: KPI cards show headline values, line charts show trends, bar charts compare categories. Use meaningful titles and accessible color contrast.",
+      "Put Revenue, Profit and Margin cards above a monthly Revenue line and category bar chart."
+    ],
+    [
+      "Interactions define how selecting a data point filters or highlights other visuals. Drillthrough sends users from summary context into detail; test behavior with multiple slicers.",
+      "Selecting 'Footwear' in a category bar filters the sales-by-month visual to Footwear."
+    ],
+    [
+      "Model performance improves with clean dimensions, fewer high-cardinality columns and efficient measures. Validate that totals reconcile after every modeling change.",
+      "Replace a large text transaction key in a visual with an aggregated Sales measure and compare render time."
+    ],
+    [
+      "Publishing makes reports accessible through Power BI Service subject to workspace, licensing and permission rules. Row-level security controls which rows a viewer can access; test roles explicitly.",
+      "A West region manager should see only West transactions when assigned to the West RLS role."
+    ]
+  ],
+  "tableau": [
+    [
+      "Connect Tableau to a source and identify dimensions, measures and data types. Decide between live connection and extract based on freshness, performance and governance.",
+      "Connect to orders.csv, classify Region as a dimension and Revenue as a numeric measure."
+    ],
+    [
+      "Rows and Columns shelves define the visual layout while the Marks card controls color, size, label and detail. Tableau aggregates measures according to the view's level of detail.",
+      "Drag Region to Rows and SUM(Sales) to Columns to create a revenue bar chart."
+    ],
+    [
+      "Filters restrict the records or marks visible, whereas groups combine related category members. Be aware of the order of operations when combining filters.",
+      "Filter Order Date to 2026 and group small product categories into 'Other'."
+    ],
+    [
+      "Calculated fields express reusable business logic at row or aggregate level. Avoid mixing aggregated and unaggregated fields in the same expression without a clear plan.",
+      "Create Profit Ratio = SUM([Profit]) / SUM([Sales]) and format it as a percentage."
+    ],
+    [
+      "Date calculations compare values over time, while table calculations operate on the visible result table. Configure addressing and partitioning so calculations follow the intended direction.",
+      "A running sum of monthly sales should increase in chronological month order."
+    ],
+    [
+      "Level of Detail expressions set the granularity of a calculation independently from some visible dimensions. FIXED, INCLUDE and EXCLUDE behave differently under filters.",
+      "FIXED [Customer ID]: SUM([Sales]) gives customer lifetime sales independent of the current view's dimensions."
+    ],
+    [
+      "Dashboards arrange worksheets into a coherent experience. Use containers for alignment, appropriate device layouts and clear hierarchy so viewers know where to start.",
+      "Put three KPI tiles above a time trend and category breakdown with consistent spacing."
+    ],
+    [
+      "Actions let selections filter, highlight or navigate across views; parameters let users change assumptions or measures. Make interactive affordances discoverable and reversible.",
+      "Clicking a state on a map filters the store ranking table to that state."
+    ],
+    [
+      "Data storytelling connects a question, evidence and decision. Add annotations for real events rather than letting viewers infer unsupported causes from correlation.",
+      "Show a sales dip, annotate a documented stockout and end with an inventory-replenishment recommendation."
+    ],
+    [
+      "Before publishing, validate calculations, permissions, extracts, refresh schedules and dashboard performance. Test the actual experience at realistic screen sizes.",
+      "Reconcile Tableau revenue against the source export, then test filters and refresh with a viewer account."
+    ]
+  ]
+};
