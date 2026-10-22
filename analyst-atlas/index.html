@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Analyst Atlas: a free interactive path through Excel, SQL, Python, Power BI, and Tableau with lessons, quizzes and live data visualizations.">
+  <meta name="theme-color" content="#f8fafb"><meta property="og:title" content="Analyst Atlas — Learn analytics beautifully"><meta property="og:description" content="Five practical learning tracks. Interactive lessons, projects, quizzes and progress tracking."><meta property="og:type" content="website">
+  <title>Analyst Atlas — Learn data analytics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css"><script type="module" src="./app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="reading-progress" id="reading-progress" aria-hidden="true"></div>
+  <header class="site-header"><nav class="nav container" aria-label="Main navigation">
+    <a class="brand" href="#/" aria-label="Analyst Atlas home"><span class="brand-mark">◈</span> analyst<span class="brand-light">atlas</span><span class="brand-dot">.</span></a>
+    <div class="nav-links"><a href="#/tools">Explore tools</a><a href="#/roadmap">Learning path</a><a href="#/playground">Playground</a><a href="#/progress">My progress</a></div>
+    <div class="nav-actions"><button id="search-open" class="search-button" type="button" aria-label="Search lessons and commands"><span>⌕</span><span class="search-label">Search lessons</span><kbd>⌘ K</kbd></button><label class="sr-only" for="theme-select">Color theme</label><select id="theme-select" class="theme-select" aria-label="Color theme"><option value="light">☀ Light</option><option value="dark">☾ Night</option><option value="care">◐ Eye care</option></select><span class="nav-progress" id="nav-progress" aria-label="Overall lesson completion"></span><button id="mobile-menu" class="menu-button" aria-expanded="false" aria-controls="mobile-links" aria-label="Toggle menu">☰</button></div>
+  </nav><div id="mobile-links" class="mobile-links container" hidden><a href="#/tools">Tools</a><a href="#/roadmap">Roadmap</a><a href="#/playground">Playground</a><a href="#/progress">Progress</a></div></header>
+  <main id="main" tabindex="-1"></main>
+  <footer class="footer container"><div><a href="#/" class="brand">◈ analyst<span class="brand-light">atlas</span><span class="brand-dot">.</span></a><p>Practical skills for curious analysts. Learn at your pace.</p></div><div class="footer-links"><a href="#/tools">Courses</a><a href="#/roadmap">Roadmap</a><a href="#/progress">Progress</a><a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://www.kaggle.com/datasets" target="_blank" rel="noopener noreferrer">Datasets ↗</a></div><small>Built for learning · Data stays on your device</small></footer>
+  <dialog id="palette" class="palette" aria-labelledby="palette-title"><div class="palette-header"><h2 id="palette-title">Quick search</h2><button id="palette-close" type="button" class="icon-button" aria-label="Close search">✕</button></div><label class="sr-only" for="palette-input">Search lessons or tools</label><input id="palette-input" placeholder="Search tools, lessons, and actions…" autocomplete="off"><div id="palette-results" class="palette-results" role="listbox" aria-label="Search results"></div><p class="palette-tip">↑ ↓ navigate · Enter open · Esc close</p></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body></html>
